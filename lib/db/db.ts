@@ -18,7 +18,7 @@ export async function getToken() {
   const signer = new Signer({
     hostname: process.env.AURORA_CLUSTER_ENDPOINT!,
     port: 5432,
-    username: process.env.AURORA_MASTER_USERNAME || 'postgres',
+    username: process.env.PGUSER,
     region: process.env.AWS_REGION || 'us-east-1',
     credentials: awsCredentialsProvider({
       roleArn: process.env.AWS_ROLE_ARN!,
@@ -53,8 +53,8 @@ export async function getConnection(): Promise<Pool> {
     const token = await getToken();
 
     pool = new Pool({
-      host: process.env.AURORA_CLUSTER_ENDPOINT!,
-      user: process.env.AURORA_MASTER_USERNAME || 'postgres',
+      host: process.env.PGHOST!,
+      user: process.env.PGUSER,
       password: token,
       database: 'postgres',
       port: 5432,
