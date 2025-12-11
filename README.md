@@ -46,3 +46,5 @@ pnpm run db:seed
 ```bash
 pnpm run dev
 ```
+6. View development server:
+http://localhost:3000
