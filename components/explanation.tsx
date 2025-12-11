@@ -1,13 +1,23 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Explanation() {
   return (
     <div className="text-gray-800 dark:text-gray-200 text-sm border border-dashed border-gray-300 dark:border-gray-600 p-4 mb-4 font-mono bg-white dark:bg-gray-900">
+      <div className="mb-4">
+        <Image
+          src="/Vercel-AWS-GitHub-apg.png"
+          alt="Vercel AWS Aurora PostgreSQL native integration"
+          width={600}
+          height={400}
+          className="w-full h-auto"
+        />
+      </div>
       <p className="mb-2">
         This app uses <b className="font-bold">AWS Aurora PostgreSQL</b> with
         Next.js and Vercel (
         <Link
-          href="https://github.com/vercel/aws-dsql-movies-demo"
+          href="https://github.com/uncurated-tests/aws-aurora-postgresql-demo"
           target="_blank"
           rel="noreferrer"
           className="text-gray-900 dark:text-white border-b border-gray-900 dark:border-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
