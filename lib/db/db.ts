@@ -1,10 +1,7 @@
-import { awsCredentialsProvider } from '@vercel/functions/oidc';
-import { Signer } from '@aws-sdk/rds-signer';
-import { Pool } from 'pg';
-import { config } from 'dotenv';
-import path from 'path';
-
-config({ path: path.resolve(process.cwd(), '.env.local') });
+import { awsCredentialsProvider } from "@vercel/functions/oidc";
+import { attachDatabasePool } from "@vercel/functions";
+import { Signer } from "@aws-sdk/rds-signer";
+import { Pool } from "pg";
 
 let pool: Pool | null = null;
 let cachedToken: { token: string; expiresAt: Date } | null = null;
@@ -55,15 +52,16 @@ export async function getConnection(): Promise<Pool> {
     pool = new Pool({
       host: process.env.PGHOST!,
       user: process.env.PGUSER!,
+      database: process.env.PGDATABASE || "postgres",
       password: token,
-      database: 'postgres',
       port: Number(process.env.PGPORT),
       ssl: { rejectUnauthorized: false },
       max: 20,
     });
+    attachDatabasePool(pool);
     return pool;
   } catch (error) {
-    console.error('Failed to create database connection:', error);
+    console.error("Failed to create database connection:", error);
     throw error;
   }
 }
