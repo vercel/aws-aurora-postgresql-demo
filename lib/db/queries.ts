@@ -1,5 +1,5 @@
-import { getConnection } from './db';
-import { performance } from 'perf_hooks';
+import { getConnection } from "./db";
+import { performance } from "perf_hooks";
 
 export interface Movie {
   id: number;
@@ -20,16 +20,16 @@ export async function getMovies(sessionId?: string, filter?: string) {
   const startTime = performance.now();
 
   const params: any[] = [];
-  let whereClause = '';
-  
+  let whereClause = "";
+
   if (filter) {
-    whereClause = 'WHERE m.title ILIKE $1';
+    whereClause = "WHERE m.title ILIKE $1";
     params.push(`%${filter}%`);
   }
 
   const countQuery = `SELECT COUNT(*) as count FROM movies m ${whereClause}`;
   const countResult = await pool.query(countQuery, params);
-  const totalRecords = parseInt(countResult.rows[0]?.count || '0');
+  const totalRecords = parseInt(countResult.rows[0]?.count || "0");
 
   let moviesQuery: string;
   let queryParams: any[];

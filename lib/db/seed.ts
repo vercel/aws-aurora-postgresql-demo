@@ -22,7 +22,7 @@ async function readMovieTitlesFromCSV(): Promise<string[]> {
       .on("end", () => {
         const uniqueMovieTitles = Array.from(movieTitles);
         console.log(
-          `Parsed ${uniqueMovieTitles.length} unique movies from CSV.`
+          `Parsed ${uniqueMovieTitles.length} unique movies from CSV.`,
         );
         resolve(uniqueMovieTitles);
       })
@@ -49,17 +49,17 @@ async function main() {
         (title, idx) =>
           `(${i + idx + 1}, '${title.replace(
             /'/g,
-            "''"
-          )}', 0, '${defaultDate.toISOString()}')`
+            "''",
+          )}', 0, '${defaultDate.toISOString()}')`,
       )
       .join(",");
 
     await pool.query(
-      `INSERT INTO movies (id, title, score, last_vote_time) VALUES ${values} ON CONFLICT (id) DO NOTHING`
+      `INSERT INTO movies (id, title, score, last_vote_time) VALUES ${values} ON CONFLICT (id) DO NOTHING`,
     );
 
     console.log(
-      `Inserted ${Math.min(i + batchSize, movieTitles.length)} movies...`
+      `Inserted ${Math.min(i + batchSize, movieTitles.length)} movies...`,
     );
   }
 
