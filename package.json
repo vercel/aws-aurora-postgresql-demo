@@ -6,8 +6,8 @@
     "start": "next start",
     "db:seed": "npx tsx lib/db/seed.ts",
     "db:migrate": "npx tsx lib/db/migrate.ts",
-    "load-test-reads": "k6 run scripts/load-test-reads.ts",
-    "load-test-writes": "k6 run scripts/load-test-writes.ts"
+    "load-test": "k6 run scripts/load-test.ts",
+    "clean-load-test-entries": "npx tsx scripts/clean-load-test-entries"
   },
   "dependencies": {
     "@aws-sdk/client-sts": "^3.948.0",

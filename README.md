@@ -51,4 +51,28 @@ pnpm run dev
 ```
 
 6. View development server:
-   http://localhost:3000
+   <http://localhost:3000>
+
+## Load Testing
+
+### Requirements
+
+1. Get access to the Vercel Labs team, ask for request via Lumos if needed
+2. Install all dependencies with `pnpm install`
+3. Run K6 locally with `brew install k6`
+4. Run `vercel link` and connect to project `aws-aurora-postgresql-demo`
+5. Fetch environment variables with `vercel env pull`
+
+### Next
+
+1. Start the development server with
+
+```bash
+pnpm run dev
+```
+
+2. Once the development server is up
+
+```bash
+pnpm load-test
+```
