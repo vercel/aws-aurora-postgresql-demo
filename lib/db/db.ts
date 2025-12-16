@@ -2,7 +2,6 @@ import { awsCredentialsProvider } from "@vercel/functions/oidc";
 import { attachDatabasePool } from "@vercel/functions";
 import { Signer } from "@aws-sdk/rds-signer";
 import { ClientBase, Pool } from "pg";
-import { cacheable } from "./cacheable";
 
 const signer = new Signer({
   hostname: process.env.PGHOST!,
@@ -19,11 +18,8 @@ const pool = new Pool({
   host: process.env.PGHOST!,
   user: process.env.PGUSER!,
   database: process.env.PGDATABASE || "postgres",
-  password: cacheable(
-    () => signer.getAuthToken(),
-    // Token is valid for 15 minutes, set expiry to 14 minutes to be safe
-    14 * 60 * 1000,
-  ),
+  // The auth token value can be cached for up to 15 minutes (900 seconds) if desired.
+  password: () => signer.getAuthToken(),
   port: Number(process.env.PGPORT),
   // Recommended to switch to `true` in production.
   // See https://docs.aws.amazon.com/lambda/latest/dg/services-rds.html#rds-lambda-certificates
@@ -37,6 +33,7 @@ export async function query(sql: string, args: unknown[]) {
   return pool.query(sql, args);
 }
 
+// Use it for multiple queries transaction.
 export async function withConnection<T>(
   fn: (client: ClientBase) => Promise<T>,
 ): Promise<T> {
